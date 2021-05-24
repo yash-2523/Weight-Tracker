@@ -13,7 +13,7 @@ export default function SignIn() {
     const password = useRef("");
     let HandleGoogleSignIn = () => {
        const provider = new firebase.auth.GoogleAuthProvider();
-       firebase.auth().signInWithPopup(provider).then(result => {console.log(result)}).catch(err => {
+       firebase.auth().signInWithPopup(provider).then(result => {}).catch(err => {
            alert.error(err.message)
        })
     }
@@ -31,7 +31,7 @@ export default function SignIn() {
     }
 
     let HandleAnnonymousSignIn = () => {
-        firebase.auth().signInAnonymously().then(result => {console.log(result)}).catch(err => {
+        firebase.auth().signInAnonymously().then(result => {}).catch(err => {
             alert.error(err.message)
         })
     }

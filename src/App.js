@@ -11,7 +11,6 @@ import { AuthContext } from './context/Auth';
 
 function App () {
     const {user,loading} = useContext(AuthContext);
-    console.log(user,loading)
     if(loading===true){
         return <Loading background="#D3D3D3" loaderColor="#3498db"></Loading>
     }

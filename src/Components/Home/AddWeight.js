@@ -9,7 +9,6 @@ export default function AddWeight() {
     const firestore = firebase.firestore();
     const weightRef = useRef("");
     const alert = useAlert();
-    // console.log(user.uid)
     let AddWeight = (e) => {
         e.preventDefault()
         firestore.collection('weights').add({

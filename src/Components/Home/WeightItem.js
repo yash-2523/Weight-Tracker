@@ -6,10 +6,17 @@ import firebase from '../../firebase'
 export default function WeightItem(props) {
     const [editting,setEditting] = useState(false);
     let date = props.snapShot.data().timeStamp?.seconds;
-    date = new Date(date * 1000).toLocaleDateString()
+    date = new Date(date * 1000).toLocaleDateString();
+    let finalDate = date;
     const firestore = firebase.firestore();
     const alert = useAlert();
     const editWeight = useRef(props.snapShot.data().weight);
+
+
+    let getCurrentDate = () => {
+        let currentDate = new Date(Date.now()).toLocaleDateString();
+        return currentDate;
+    }
 
 
     let HandleItemDelete = () => {
@@ -47,7 +54,7 @@ export default function WeightItem(props) {
                 <p className="text-center">{props.snapShot.data().weight}</p>
             }
             
-            <p className="text-center">{date==="Invalid Date" ? "" : date}</p>
+            <p className="text-center">{finalDate==="Invalid Date" ? getCurrentDate()  : date}</p>
             <div className="d-flex justify-content-around align-items-center" style={{columnGap: '1rem'}}>
                 {editting ? <i className="fa fa-check text-success" onClick={EditWeight}></i> : <i className="fa fa-edit" onClick={() => setEditting(!editting)}></i>}
                 <i className="fa fa-trash" onClick={HandleItemDelete}></i>
