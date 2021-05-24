@@ -3,6 +3,7 @@ import { AuthContext } from '../../context/Auth'
 import { Link, Redirect } from 'react-router-dom';
 import firebase from '../../firebase'
 import { useAlert } from 'react-alert';
+import { LoaderContext } from '../../context/Loader';
 
 export default function SignUp() {
 
@@ -13,17 +14,17 @@ export default function SignUp() {
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
     const [confirmPassword,setConfirmPassword] = useState("")
-    const [loading,setLoading] = useState(false);
+    const {loader,setLoader} = useContext(LoaderContext);
 
     
 
     let HandleSignUp = (e) => {
-        setLoading(true);
+        setLoader(true);
         e.preventDefault();
         firebase.auth().createUserWithEmailAndPassword(email,password).then((userCredential) => {
-            setLoading(false);
+            setLoader(false);
         }).catch(err => {
-            setLoading(false);
+            setLoader(false);
             alert.error(err.message)
             
         }) 
@@ -44,7 +45,7 @@ export default function SignUp() {
                     <input placeholder="Email" type="email" onChange={(e) => setEmail(e.target.value)} required></input>
                     <input placeholder="Password" type="password" onChange={(e) => setPassword(e.target.value)} required></input>
                     <input placeholder="Confirm Password" type="password" onChange={(e) => setConfirmPassword(e.target.value)} required></input>
-                    <button className="btn btn-success w-100 align-self-center" disabled={password==="" || confirmPassword !== password} type="submit">{loading ? "Loading..." : "Sign Up"}</button>
+                    <button className="btn btn-success w-100 align-self-center" disabled={password==="" || confirmPassword !== password} type="submit">Sign Up</button>
                 </form>
                 <p className="text-center mb-3"><Link to="/signIn">Already have an account</Link></p>
             </div>

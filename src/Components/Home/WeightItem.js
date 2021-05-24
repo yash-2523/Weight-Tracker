@@ -19,11 +19,14 @@ export default function WeightItem(props) {
 
 
     let HandleItemDelete = () => {
-        firestore.collection('weights').doc(props.snapShot.id).delete().then(() => {
-            alert.success("Deleted Successfully")
-        }).catch(err => {
-            alert.error("Something Went Wron")
-        });
+
+        if(window.confirm("Are you sure ?")){
+            firestore.collection('weights').doc(props.snapShot.id).delete().then(() => {
+                alert.success("Deleted Successfully")
+            }).catch(err => {
+                alert.error("Something Went Wron")
+            });
+        }
     }
 
     let EditWeight = () => {

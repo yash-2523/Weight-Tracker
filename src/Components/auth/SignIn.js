@@ -2,36 +2,47 @@ import React, { useContext, useRef, useState } from 'react'
 import { useAlert } from 'react-alert';
 import { Link, Redirect } from 'react-router-dom';
 import { AuthContext } from '../../context/Auth'
+import { LoaderContext } from '../../context/Loader';
 import firebase from '../../firebase';
 
 export default function SignIn() {
 
     const {user} = useContext(AuthContext);
     const alert = useAlert();
-    const [loading,setLoading] = useState(false);
     const email = useRef("");
     const password = useRef("");
+    const {loader,setLoader} = useContext(LoaderContext);
+
+
     let HandleGoogleSignIn = () => {
+        setLoader(true) 
        const provider = new firebase.auth.GoogleAuthProvider();
-       firebase.auth().signInWithPopup(provider).then(result => {}).catch(err => {
+       firebase.auth().signInWithPopup(provider).then(result => {
+          setLoader(false)
+       }).catch(err => {
+           setLoader(false)
            alert.error(err.message)
        })
     }
 
     let HandleSignIn = (e) => {
-        setLoading(true);
+        setLoader(true);
         e.preventDefault();
         firebase.auth().signInWithEmailAndPassword(email.current.value,password.current.value).then((userCredential) => {
-            setLoading(false);
+            setLoader(false);
         }).catch(err => {
-            setLoading(false);
+            setLoader(false);
             alert.error(err.message)
             
         }) 
     }
 
     let HandleAnnonymousSignIn = () => {
-        firebase.auth().signInAnonymously().then(result => {}).catch(err => {
+        setLoader(true)
+        firebase.auth().signInAnonymously().then(result => {
+            setLoader(false)
+        }).catch(err => {
+            setLoader(false)
             alert.error(err.message)
         })
     }
@@ -47,7 +58,7 @@ export default function SignIn() {
                 <form className="px-lg-5 px-md-3 mt-3 mb-4 d-flex flex-column justify-content-between" onSubmit={(e) => HandleSignIn(e)}>
                     <input placeholder="Email" ref={email} type="email" required></input>
                     <input placeholder="Password" ref={password} type="password" required></input>
-                    <button className="btn btn-success w-100 align-self-center" type="submit">{loading ? "Loading..." : "Sign In"}</button>
+                    <button className="btn btn-success w-100 align-self-center" type="submit">Sign In</button>
                     
                 </form>
                 <hr></hr>
